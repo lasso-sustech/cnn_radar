@@ -19,16 +19,16 @@ moving average shown on tensorboard''')
 
 ## The following flags define hyper-parameters regards training
 #tf.app.flags.DEFINE_integer('sample_size', 7899, '''Total number of samples that you want to train''') 24
-tf.app.flags.DEFINE_integer('sample_size', 300, '''Total number of samples that you want to train''')
+tf.app.flags.DEFINE_integer('sample_size', 500, '''Total number of samples that you want to train''')
 #tf.app.flags.DEFINE_integer('train_steps', 50001, '''Total steps that you want to train''')500
 tf.app.flags.DEFINE_integer('train_steps', 500, '''Total steps that you want to train''')
 tf.app.flags.DEFINE_boolean('is_full_validation', True, '''Validation w/ full validation set or
 a random batch''')
 #tf.app.flags.DEFINE_integer('train_batch_size', 100, '''Train batch size''') 10
-tf.app.flags.DEFINE_integer('train_batch_size', 300, '''Train batch size''')
+tf.app.flags.DEFINE_integer('train_batch_size', 500, '''Train batch size''')
 # tf.app.flags.DEFINE_integer('validation_batch_size', 1000, '''Validation batch size, better to be
 # a divisor of 10000 for this task''') 10
-tf.app.flags.DEFINE_integer('validation_batch_size', 300, '''Validation batch size, better to be
+tf.app.flags.DEFINE_integer('validation_batch_size', 500, '''Validation batch size, better to be
 # a divisor of 10000 for this task''')
 tf.app.flags.DEFINE_integer('test_batch_size', 25, '''Test batch size''')
 

@@ -4,6 +4,7 @@ import h5py
 import os
 import random
 
+DATASET_PATH = '../dataset/private/radar_cnn_dataset'
 
 # batch_size = 256
 # epochs = 100
@@ -156,7 +157,7 @@ def train_data_load(train_index1,train_index2,train_index3,train_index4,train_in
     # for i in range(1,201,2): #Train_data_1_50
     # for i in train_index: #Train_data_1_50
     for i in train_index1: #Train_data_1_50
-        data_load_address = './t_0.2_1'
+        data_load_address = '%s/t_0.2_1'%DATASET_PATH
         mat = h5py.File(data_load_address + '/' + str(i) + '.mat', 'r')
         data = mat['temp']
         data = np.transpose(data)
@@ -180,7 +181,7 @@ def train_data_load(train_index1,train_index2,train_index3,train_index4,train_in
     # for i in range(1,201,2): #Val_data_1_50
     # for i in train_index: #Train_data_1_50
     for i in train_index2: #Train_data_1_50
-        data_load_address = './t_0.2_2'
+        data_load_address = '%s/t_0.2_2'%DATASET_PATH
         mat = h5py.File(data_load_address + '/' + str(i+230) + '.mat', 'r')
         data = mat['temp']
         data = np.transpose(data)
@@ -205,7 +206,7 @@ def train_data_load(train_index1,train_index2,train_index3,train_index4,train_in
     # for i in range(1,201,2): #1_data_1_50
     # for i in train_index: #Train_data_1_50
     for i in train_index3: #Train_data_1_50
-        data_load_address = './t_0.2_3'
+        data_load_address = '%s/t_0.2_3'%DATASET_PATH
         mat = h5py.File(data_load_address + '/' + str(i+460) + '.mat', 'r')
         data = mat['temp']
         data = np.transpose(data)
@@ -226,7 +227,7 @@ def train_data_load(train_index1,train_index2,train_index3,train_index4,train_in
     #     # print(np.shape(data))
     label = [0,0,0,1,0]
     for i in train_index4: #Train_data_1_50
-        data_load_address = './t_0.2_4'
+        data_load_address = '%s/t_0.2_4'%DATASET_PATH
         mat = h5py.File(data_load_address + '/' + str(i+690) + '.mat', 'r')
         data = mat['temp']
         data = np.transpose(data)
@@ -236,7 +237,7 @@ def train_data_load(train_index1,train_index2,train_index3,train_index4,train_in
         all_label.append(label)
     label = [0,0,0,0,1]
     for i in train_index4: #Train_data_1_50
-        data_load_address = './t_0.2_5'
+        data_load_address = '%s/t_0.2_5'%DATASET_PATH
         mat = h5py.File(data_load_address + '/' + str(i+920) + '.mat', 'r')
         data = mat['temp']
         data = np.transpose(data)
@@ -307,7 +308,7 @@ def val_data_load(test_index1,test_index2,test_index3,test_index4,test_index5):
     # for i in range(2,192,2):
     # for i in test_index: #Train_data_1_50
     for i in test_index1: #Train_data_1_50
-        data_load_address = './t_0.2_1' #16
+        data_load_address = '%s/t_0.2_1'%DATASET_PATH #16
         mat = h5py.File(data_load_address + '/' + str(i) + '.mat', 'r')
         data = mat['temp']
         data = np.transpose(data)
@@ -331,7 +332,7 @@ def val_data_load(test_index1,test_index2,test_index3,test_index4,test_index5):
     # for i in range(2,192,2):
     # for i in test_index: #Train_data_1_50
     for i in test_index2: #Train_data_1_50
-        data_load_address = './t_0.2_2'
+        data_load_address = '%s/t_0.2_2'%DATASET_PATH
         mat = h5py.File(data_load_address + '/' + str(i+230) + '.mat', 'r')
         data = mat['temp']
         data = np.transpose(data)
@@ -355,7 +356,7 @@ def val_data_load(test_index1,test_index2,test_index3,test_index4,test_index5):
     # for i in range(2,192,2): #1_data_2_50_1
     # for i in test_index: #Train_data_1_50
     for i in test_index3: #Train_data_1_50
-        data_load_address = './t_0.2_3'
+        data_load_address = '%s/t_0.2_3'%DATASET_PATH
         mat = h5py.File(data_load_address + '/' + str(i+460) + '.mat', 'r')
         data = mat['temp']
         data = np.transpose(data)
@@ -376,7 +377,7 @@ def val_data_load(test_index1,test_index2,test_index3,test_index4,test_index5):
     #     # print(np.shape(data))
     label = [0,0,0,1,0]
     for i in test_index3: #Train_data_1_50
-        data_load_address = './t_0.2_4'
+        data_load_address = '%s/t_0.2_4'%DATASET_PATH
         mat = h5py.File(data_load_address + '/' + str(i+690) + '.mat', 'r')
         data = mat['temp']
         data = np.transpose(data)
@@ -386,7 +387,7 @@ def val_data_load(test_index1,test_index2,test_index3,test_index4,test_index5):
         all_label.append(label)
     label = [0,0,0,0,1]
     for i in test_index3: #Train_data_1_50
-        data_load_address = './t_0.2_5'
+        data_load_address = '%s/t_0.2_5'%DATASET_PATH
         mat = h5py.File(data_load_address + '/' + str(i+920) + '.mat', 'r')
         data = mat['temp']
         data = np.transpose(data)
