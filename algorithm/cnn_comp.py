@@ -1,4 +1,5 @@
 from __future__ import print_function
+from tqdm import tqdm
 
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
@@ -194,110 +195,67 @@ prediction = tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
 # number of parameters: (5*5+1)*32+(5*5*32+1)*64+(7*7*64+1)*1024+(1024+1)*10
 
 # the error between prediction and real data
-cross_entropy = tf.reduce_mean(-tf.reduce_sum(ys * tf.log(prediction),
-                                              reduction_indices=[1]))       # loss
+cross_entropy = tf.reduce_mean(-tf.reduce_sum( ys * tf.log(prediction), reduction_indices=[1] ))       # loss
 train_step = tf.train.AdamOptimizer(1e-3).minimize(cross_entropy)
 
 start_time = time.time()
 
-sess = tf.Session()
-# important step
-# tf.initialize_all_variables() no long valid from
-# 2017-03-02 if using tensorflow >= 0.12
+sess  = tf.Session()
+saver = tf.train.Saver(max_to_keep=3)
 
-# acc_vec = 0
-# size_vec = 500
 num_mini_set = 2
 num_mini_number = 250
 # for q in range(4,5):
 q = 100
 acc_vec = 0
 size_vec = 500
-while acc_vec<0.1 and size_vec>1:
-    if int((tf.__version__).split('.')[1]) < 12 and int((tf.__version__).split('.')[0]) < 1:
-        init = tf.initialize_all_variables()
-    else:
-        init = tf.global_variables_initializer()
-    sess.run(init)
 
-    size = size_vec
-    # num_mini = math.ceil(size/100)
-    
-    num_mini = num_mini_set
+# while acc_vec<0.1 and size_vec>1:
+if int((tf.__version__).split('.')[1]) < 12 and int((tf.__version__).split('.')[0]) < 1:
+    init = tf.initialize_all_variables()
+else:
+    init = tf.global_variables_initializer()
+sess.run(init)
+last_ckpt = tf.traint.latest_checkpoint('ckpt')
+if last_ckpt:
+    saver.restore(sess, last_ckpt)
 
-    # batch_xs = x_train[size*0:size*1]
-    # batch_ys = y_train[size*0:size*1]
-    batch_xs = train_data
-    batch_ys = train_labels
-    
+size = size_vec
+# num_mini = math.ceil(size/100)
+num_mini = num_mini_set
+# batch_xs = x_train[size*0:size*1]
+# batch_ys = y_train[size*0:size*1]
+batch_xs = train_data
+batch_ys = train_labels
 
-    num_epochs = 500
-    accuracy = []
-    step = []
-    num_lr = 1
-    # l_r = 1e-4
+num_epochs = 500
+accuracy = []
+step = []
+num_lr = 1
+# l_r = 1e-4
 
-    for epoch in range(num_epochs):
-        # ent = 0
-        for i in range(num_mini):
-            sess.run(train_step, feed_dict={xs: batch_xs[num_mini_number*(i):num_mini_number*(i+1)], 
-                                ys: batch_ys[num_mini_number*(i):num_mini_number*(i+1)],
-                                keep_prob: 0.5})
-        acc = compute_accuracy(test_data, test_labels)
-        # if acc >= 0.89 and num_lr <= 2 and epoch >= 20:
-        #         l_r = 0.5 * l_r
-        #         print('Learning rate decayed to ', l_r)
-        #         num_lr = num_lr + 1
-        accuracy.append(acc)
-        step.append(epoch)
-        df = pd.DataFrame(data={'step':step,'accuracy':accuracy})
-        df.to_csv(train_dir + FLAGS.version + '_accuracy_' + str(q) + '.csv')
-        #     ent = ent + cross_entropy
-        # entropy.append(ent/num_epochs)
+#=============================== Training Procedure ===============================#
+for epoch in tqdm(range(num_epochs), '# of epoch'):
+    for i in tqdm(range(num_mini), '# of iter'):
+        sess.run(train_step, feed_dict={
+            xs: batch_xs[ num_mini_number*(i) : num_mini_number*(i+1) ],
+            ys: batch_ys[ num_mini_number*(i) : num_mini_number*(i+1) ],
+            keep_prob: 0.5
+        })
+    ## calculate accuracy per epoch
+    # acc = compute_accuracy(test_data, test_labels)
+    # step.append(epoch); accuracy.append(acc);
+    # df = pd.DataFrame(data={'step':step,'accuracy':accuracy})
+    # df.to_csv(train_dir + FLAGS.version + '_accuracy_' + str(q) + '.csv')
+    ## checkpoint save per epoch
+    saver.save(sess, 'cnn-model', global_strp=epoch)
+    pass
+#=============================== Training Procedure ===============================#
 
-    acc_vec = compute_accuracy(test_data, test_labels)
-    df = pd.DataFrame(data={'step':step,'accuracy':accuracy})
-    df.to_csv(train_dir + FLAGS.version + '_accuracy_' + str(q) + '.csv')
-
-
-# size_vec = [100, 150, 200, 300, 500, 1000, 5000, 10000]
-# acc_vec=np.ones(9)*0.001
-# for j in range(len(size_vec)):
-#     while acc_vec[j]<0.1 and size_vec[j]>1:
-#         if int((tf.__version__).split('.')[1]) < 12 and int((tf.__version__).split('.')[0]) < 1:
-#             init = tf.initialize_all_variables()
-#         else:
-#             init = tf.global_variables_initializer()
-#         sess.run(init)
-    
-#         size = size_vec[j]
-#         num_mini = math.ceil(size/100)
-
-#         batch_xs = x_train[size*0:size*1]
-#         batch_ys = y_train[size*0:size*1]
-
-#         num_epochs = 100
-
-#         for epoch in range(num_epochs):
-#             for i in range(num_mini):
-#                 sess.run(train_step, feed_dict={xs: batch_xs[100*(i):100*(i+1)], 
-#                                     ys: batch_ys[100*(i):100*(i+1)],
-#                                     keep_prob: 0.5})
-                                            
-#         acc_vec[j] = compute_accuracy(x_test[:1000], y_test[:1000])
-#         print(acc_vec[j])
-    
-#         # sess.run(train_step, feed_dict={xs: batch_xs, ys: batch_ys, keep_prob: 0.5}) 
-#         #if epoch == num_epochs-100:
-# #            print(compute_accuracy(
-# #                   x_test[:1000], y_test[:1000]))
-#         # uuu = compute_uncertainty(x_train[:1000], y_train[:1000])
-#         # print(uuu)
-
-#         # uuu = compute_uncertainty(x_train[1000:2000], y_train[1000:2000])
-#         # print(uuu)
-
-
+acc_vec = compute_accuracy(test_data, test_labels)
+df = pd.DataFrame(data={'step':step,'accuracy':accuracy})
+df.to_csv(train_dir + FLAGS.version + '_accuracy_' + str(q) + '.csv')
+#     pass
 
 # your code
 elapsed_time = time.time() - start_time
