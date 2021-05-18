@@ -243,13 +243,13 @@ for epoch in tqdm(range(num_epochs), '# of epoch'):
             ys: batch_ys[ num_mini_number*(i) : num_mini_number*(i+1) ],
             keep_prob: 0.5
         })
+    ## checkpoint save per epoch
+    saver.save(sess, 'ckpt/cnn-model', global_step=epoch)
     ## calculate accuracy per epoch
     # acc = compute_accuracy(test_data, test_labels)
     # step.append(epoch); accuracy.append(acc);
     # df = pd.DataFrame(data={'step':step,'accuracy':accuracy})
     # df.to_csv(train_dir + FLAGS.version + '_accuracy_' + str(q) + '.csv')
-    ## checkpoint save per epoch
-    saver.save(sess, 'ckpt/cnn-model', global_step=epoch)
     pass
 #=============================== Training Procedure ===============================#
 

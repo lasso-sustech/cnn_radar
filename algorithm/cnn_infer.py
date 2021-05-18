@@ -195,8 +195,8 @@ prediction = tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
 # number of parameters: (5*5+1)*32+(5*5*32+1)*64+(7*7*64+1)*1024+(1024+1)*10
 
 # the error between prediction and real data
-cross_entropy = tf.reduce_mean(-tf.reduce_sum( ys * tf.log(prediction), reduction_indices=[1] ))       # loss
-train_step = tf.train.AdamOptimizer(1e-3).minimize(cross_entropy)
+# cross_entropy = tf.reduce_mean(-tf.reduce_sum( ys * tf.log(prediction), reduction_indices=[1] ))       # loss
+# train_step = tf.train.AdamOptimizer(1e-3).minimize(cross_entropy)
 
 start_time = time.time()
 
@@ -237,19 +237,17 @@ num_lr = 1
 
 #=============================== Training Procedure ===============================#
 for epoch in tqdm(range(num_epochs), '# of epoch'):
-    for i in tqdm(range(num_mini), '# of iter'):
-        sess.run(train_step, feed_dict={
-            xs: batch_xs[ num_mini_number*(i) : num_mini_number*(i+1) ],
-            ys: batch_ys[ num_mini_number*(i) : num_mini_number*(i+1) ],
-            keep_prob: 0.5
-        })
+    # for i in tqdm(range(num_mini), '# of iter'):
+    #     sess.run(train_step, feed_dict={
+    #         xs: batch_xs[ num_mini_number*(i) : num_mini_number*(i+1) ],
+    #         ys: batch_ys[ num_mini_number*(i) : num_mini_number*(i+1) ],
+    #         keep_prob: 0.5
+    #     })
     ## calculate accuracy per epoch
-    # acc = compute_accuracy(test_data, test_labels)
-    # step.append(epoch); accuracy.append(acc);
-    # df = pd.DataFrame(data={'step':step,'accuracy':accuracy})
+    acc = compute_accuracy(test_data, test_labels)
+    step.append(epoch); accuracy.append(acc);
+    df = pd.DataFrame(data={'step':step,'accuracy':accuracy})
     # df.to_csv(train_dir + FLAGS.version + '_accuracy_' + str(q) + '.csv')
-    ## checkpoint save per epoch
-    saver.save(sess, 'ckpt/cnn-model', global_step=epoch)
     pass
 #=============================== Training Procedure ===============================#
 
