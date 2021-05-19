@@ -237,7 +237,7 @@ num_lr = 1
 
 #=============================== Training Procedure ===============================#
 for epoch in tqdm(range(num_epochs), '# of epoch'):
-    for i in tqdm(range(num_mini), '# of iter'):
+    for i in tqdm(range(num_mini), '# of iter', leave=False):
         sess.run(train_step, feed_dict={
             xs: batch_xs[ num_mini_number*(i) : num_mini_number*(i+1) ],
             ys: batch_ys[ num_mini_number*(i) : num_mini_number*(i+1) ],

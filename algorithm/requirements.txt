@@ -1,2 +1,5 @@
+tqdm
 pandas
 opencv-python
+numpy
+tensorflow
