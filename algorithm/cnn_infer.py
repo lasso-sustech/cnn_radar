@@ -3,7 +3,7 @@ import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 import numpy as np
 from hyper_parameters import *
-import h5py
+import cv2
 from sys import argv
 
 def whitening_image(image):
@@ -74,11 +74,10 @@ def build_network():
 
 def main():
     if len(argv) != 2:
-        print('This program requires one argument: *.mat file path')
+        print('This program requires one argument: *.jpg file path')
         return
     _file = argv[1]
-    _mat = h5py.File(_file, 'r')
-    data = np.transpose( _mat['temp'] ).astype('float32')
+    data = cv2.imread(_file).astype('float32')
     data = whitening_image(data)
     #
     _count = 0
