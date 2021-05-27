@@ -125,7 +125,7 @@ prediction = tf.nn.softmax(tf.matmul(h_fc1_drop, W_fc2) + b_fc2)
 
 ##=============================== Inference Procedure ===============================##
 sess  = tf.Session()
-saver = tf.train.Saver(max_to_keep=1)
+saver = tf.train.Saver()
 
 if int((tf.__version__).split('.')[1]) < 12 and int((tf.__version__).split('.')[0]) < 1:
     init = tf.initialize_all_variables()
