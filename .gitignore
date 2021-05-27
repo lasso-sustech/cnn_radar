@@ -3,3 +3,4 @@ __pycache__
 algorithm/ckpt
 dataset
 *.pyc
+*.pdf
