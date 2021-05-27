@@ -103,7 +103,10 @@ def main():
     #
     y_pred = sess.run(pred, feed_dict={xs: v_xs, keep_prob:1})[0]
     _label = y_pred.argmax() + 1
-    print(last_ckpt, _label, y_pred)
+    # print(last_ckpt, _label, y_pred)
+    print('The used model:', last_ckpt)
+    print('Prediction label: ', _label)
+    print('Raw prediction result:', y_pred)
     pass
 
 if __name__ == '__main__':
