@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 # Reference: https://github.com/wenxinxu/resnet_in_tensorflow
 # ==============================================================================
 import tensorflow.compat.v1 as tf
