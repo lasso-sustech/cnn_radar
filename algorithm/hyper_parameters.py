@@ -1,7 +1,13 @@
-# Coder: Wenxin Xu
-# Github: https://github.com/wenxinxu/resnet_in_tensorflow
+# Reference: https://github.com/wenxinxu/resnet_in_tensorflow
 # ==============================================================================
-import tensorflow as tf
+import tensorflow.compat.v1 as tf
+tf.disable_v2_behavior()
+# import tensorflow as tf
+
+IMG_WIDTH = 48
+IMG_HEIGHT = 48
+IMG_DEPTH = 3
+NUM_CLASS = 5
 
 FLAGS = tf.app.flags.FLAGS
 
