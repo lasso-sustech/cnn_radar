@@ -7,10 +7,12 @@ from pathlib import Path
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 import numpy as np
+import random
 from data_load_cnn import *
 from hyper_parameters import *
 
 ##===================================== Load the Dataset =====================================##
+random.seed(SPLIT_SEED)
 index = random.sample(range(1,201),100)
 
 vali_data, vali_labels = val_data_load( *[index]*5 )

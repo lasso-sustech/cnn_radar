@@ -4,13 +4,14 @@ from tqdm import tqdm
 #
 import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
-import time
+import time, random
 import numpy as np
 import pandas as pd
 from data_load_cnn import *
 from hyper_parameters import *
 
 ##===================================== Load the Dataset =====================================##
+random.seed(SPLIT_SEED)
 index = random.sample(range(1,201),200)
 
 all_data, all_labels = train_data_load( *([ index[:100] ]*5) )
@@ -33,7 +34,7 @@ def whitening_image(image_np):
 
 # vali_data = whitening_image(vali_data)
 used_data = whitening_image(used_data)
-
+#
 train_data = []
 # test_data = []
 for i in range(500):

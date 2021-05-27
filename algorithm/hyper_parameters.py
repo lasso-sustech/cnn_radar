@@ -6,6 +6,7 @@ import tensorflow.compat.v1 as tf
 tf.disable_v2_behavior()
 # import tensorflow as tf
 
+SPLIT_SEED = 1112
 IMG_WIDTH = 48
 IMG_HEIGHT = 48
 IMG_DEPTH = 3
