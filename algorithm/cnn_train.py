@@ -172,7 +172,7 @@ class Timer:
     def __exit__(self, exc_type, exc_value, exc_tb):
         self.elapsed_time = time.time() - self.start_time
         if self.print_:
-            print('Time Elapsed: %.2f seconds.', self.elapsed_time)
+            print('Time Elapsed: %.2f seconds.'%self.elapsed_time)
     pass
 
 num_epochs = 500

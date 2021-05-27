@@ -16,7 +16,22 @@ Created on Wed Apr 10 11:49:33 2019
 from data_load_svm import *
 from hyper_parameters import *
 from sklearn import svm, metrics
-import random
+import random, time
+from termcolor import cprint
+
+class Timer:
+    def __init__(self, print_=True):
+        self.print_ = print_
+        pass
+    
+    def __enter__(self):
+        self.start_time = time.time()
+    
+    def __exit__(self, exc_type, exc_value, exc_tb):
+        self.elapsed_time = time.time() - self.start_time
+        if self.print_:
+            print('Time Elapsed: %.2f seconds.'%self.elapsed_time)
+    pass
 
 random.seed(SPLIT_SEED)
 index = random.sample(range(1,201),200)
@@ -67,8 +82,12 @@ for i in range(500):
                 count = count + 1
     test_data.append(temp2)
 
-print('training start')
-classifier.fit(train_data, used_labels)
+with Timer():
+    cprint('SVM Training start.', 'green')
+    classifier.fit(train_data, used_labels)
+    cprint('SVM Training finished.', 'red')
+#
 expected = vali_labels
 predicted = classifier.predict(test_data)
-print(metrics.accuracy_score(expected, predicted))
+acc = metrics.accuracy_score(expected, predicted)
+print('test accuracy: ', acc)
