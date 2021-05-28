@@ -40,6 +40,25 @@ def to_input( pathfile, to='(-3,0,0)', width=8, height=8, name="temp" ):
 \node[canvas is zy plane at x=0] (""" + name + """) at """+ to +""" {\includegraphics[width="""+ str(width)+"cm"+""",height="""+ str(height)+"cm"+"""]{"""+ pathfile +"""}};
 """
 
+#fc layer, https://github.com/HarisIqbal88/PlotNeuralNet/issues/82
+def to_FullyConnected( name, s_filer=" ", n_filer=" ", offset="(0,0,0)", to="(0,0,0)", width=1.5, height=3, depth=25, opacity=0.8, caption=" "):
+    return r"""
+\pic[shift={"""+ offset +"""}] at """+ to +""" 
+    {RightBandedBox={
+        name=""" + name +""",
+        caption=""" +caption + """,
+        xlabel={{ """+ '"'+str(n_filer) +'", "dummy"'+ """ }},
+        zlabel="""+ str(s_filer) +""",
+        fill=\FcColor,
+        bandfill=\FcReluColor,
+        opacity="""+ str(opacity) +""",
+        height="""+ str(height) +""",
+        width="""+ str(width) +""",
+        depth="""+ str(depth) +"""
+        }
+    };
+"""
+
 # Conv
 def to_Conv( name, s_filer=256, n_filer=64, offset="(0,0,0)", to="(0,0,0)", width=1, height=40, depth=40, caption=" " ):
     return r"""
